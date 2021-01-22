@@ -10,11 +10,11 @@ You will find a sample of how to deploy the image [here](./samples/README.md).
 
 # Image Management
 
-This image is based on PostgreSQL v12.4. It will be periodically rebuilt acording to the `cron` schedule in the workflow. When it is rebuilt, [patch](https://semver.org/) updates as well as operating security fixes will be incorporated and redistributed to all clusters via the [stable tag](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-tag-version).
+This image is based on PostgreSQL v13.1. It will be periodically rebuilt acording to the `cron` schedule in the workflow. When it is rebuilt, [patch](https://semver.org/) updates as well as operating security fixes will be incorporated and redistributed to all clusters via the [stable tag](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-tag-version).
 
 ## Tags
 
-The stable tag for this image is `12.4-latest`. When the image is rebuilt [patch](https://semver.org/) updates to PostgreSQL will be incorporated along with operating system updates.
+The stable tag for this image is `13.1`. When the image is rebuilt [patch](https://semver.org/) updates to PostgreSQL will be incorporated along with operating system updates.
 
 See the [release notes](./RELEASE.md) for more information and any other unique tags. 
 
@@ -23,7 +23,7 @@ See the [release notes](./RELEASE.md) for more information and any other unique 
 Below is a sample of how you might reference this image from a `StatefulSet` deployment manifest. 
 
 ```yaml
-  image: image-registry.openshift-image-registry.svc:5000/bcgov/patroni-postgres:12.4-latest
+  image: image-registry.openshift-image-registry.svc:5000/af2668-tools/patroni-postgres:13.1
 ```
 
 Find a sample StatefulSet deployment [here](./samples/README.md).
@@ -64,8 +64,8 @@ oc secrets add sa/builder secrets/bcgov-tools-klab --for=pull
 And finally, create an `imagestreamtag` to import the image to your cluster. Again, for the `-from-image` argument use the **external registry host name**.
 
 ```console
-oc create imagestreamtag patroni-postgresql:12.4-latest \
-  --from-image=image-registry.foo.bar.gov.bc.ca /bcgov-tools/patroni-postgresql:12.4-latest
+oc create imagestreamtag patroni-postgresql:13.1 \
+  --from-image=image-registry.foo.bar.gov.bc.ca /bcgov-tools/patroni-postgresql:13.1
 ```
 
 Check to make sure it imported:

@@ -260,7 +260,7 @@ parameters:
     description: |
       The image tag used to specify which image you would like deployed.
       Don't use `latest`.
-    value: "12.4-latest"
+    value: "13.1"
   - name: PVC_SIZE
     description: The size of the persistent volume to create.
     displayName: Persistent Volume Size
