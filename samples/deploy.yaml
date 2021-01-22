@@ -251,7 +251,7 @@ parameters:
       The OpenShift Namespace where the patroni and postgresql
       ImageStream resides.
     displayName: ImageStream Namespace
-    value: bcgov
+    value: af2668-tools
   - name: IMAGE_NAME
     description: |
       The Patroni image stream name
