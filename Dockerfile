@@ -1,10 +1,12 @@
-FROM postgres:13.1
+FROM postgres:12.5
 
 LABEL Alexander Kukushkin <alexander.kukushkin@zalando.de>
 
 ENV PATRONI_VERSION=2.0.1
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 ENV PATRONI_HOME=/opt/patroni
+ENV POSTGISV 3
+ENV TZ America/Vancouver
 
 ARG PGHOME=/home/postgres
 
@@ -13,8 +15,15 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && echo 'APT::Install-Recommends "0";\nAPT::Install-Suggests "0";' > /etc/apt/apt.conf.d/01norecommend \
     && apt-get update -y \
     && apt-get install -y curl jq locales git build-essential python3 python3-dev python3-pip python3-wheel python3-setuptools python3-virtualenv
-    
-RUN apt-get install -y pgbadger pg-activity postgis postgresql-13-pgrouting
+
+# install postgis & utilities
+RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV \
+    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV-scripts \
+    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting \
+    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting-scripts \
+    && apt-get -qq install -y --no-install-recommends postgresql-server-dev-$PG_MAJOR \
+    && apt-get -qq install -y pgbadger pg-activity \
+    && apt-get -qq purge -y --auto-remove postgresql-server-dev-$PG_MAJOR
 
 RUN echo 'Make sure we have a en_US.UTF-8 locale available' \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
@@ -34,6 +43,9 @@ RUN echo 'Make sure we have a en_US.UTF-8 locale available' \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* /root/.cache
+
+# set time zone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY contrib/root /
 
