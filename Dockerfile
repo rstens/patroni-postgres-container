@@ -17,13 +17,13 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y curl jq locales git build-essential python3 python3-dev python3-pip python3-wheel python3-setuptools python3-virtualenv
 
 # install postgis & utilities
-RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV \
-    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV-scripts \
-    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting \
-    && apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting-scripts \
-    && apt-get -qq install -y --no-install-recommends postgresql-server-dev-$PG_MAJOR \
-    && apt-get -qq install -y pgbadger pg-activity \
-    && apt-get -qq purge -y --auto-remove postgresql-server-dev-$PG_MAJOR
+RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV
+RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-postgis-$POSTGISV-scripts
+RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting
+RUN apt-get -qq install -y --no-install-recommends postgresql-$PG_MAJOR-pgrouting-scripts
+RUN apt-get -qq install -y --no-install-recommends postgresql-server-dev-$PG_MAJOR
+RUN apt-get -qq install -y pgbadger pg-activity
+RUN apt-get -qq purge -y --auto-remove postgresql-server-dev-$PG_MAJOR
 
 RUN echo 'Make sure we have a en_US.UTF-8 locale available' \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
