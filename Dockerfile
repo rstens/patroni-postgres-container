@@ -48,7 +48,7 @@ RUN echo 'Make sure we have a en_US.UTF-8 locale available' \
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY contrib/root /
-COPY ./create_postgis.sql /docker-entrypoint-initdb.d/postgis.sql
+COPY postgis.sql /docker-entrypoint-initdb.d/postgis.sql
 
 VOLUME /home/postgres/pgdata
 USER postgres
